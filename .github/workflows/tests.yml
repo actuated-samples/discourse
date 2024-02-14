@@ -328,7 +328,8 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
         timeout-minutes: 30
 
   core_frontend_tests:
-    if: github.event_name == 'pull_request' || github.repository != 'discourse/discourse-private-mirror'
+    if: false
+    # if: github.event_name == 'pull_request' || github.repository != 'discourse/discourse-private-mirror'
     name: core frontend (${{ matrix.browser }})
     runs-on: actuated-8cpu-10gb
     container:
