@@ -90,7 +90,7 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
           secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
           bucket: actuated-runners
           region: local
-          use-fallback: true
+          use-fallback: false
 
           path: vendor/bundle
           key: ${{ runner.os }}-${{ matrix.ruby }}-gem-${{ hashFiles('**/Gemfile.lock') }}-cachev2
@@ -119,7 +119,7 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
           secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
           bucket: actuated-runners
           region: local
-          use-fallback: true
+          use-fallback: false
 
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-cachev2
@@ -145,7 +145,7 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
           secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
           bucket: actuated-runners
           region: local
-          use-fallback: true
+          use-fallback: false
 
           path: plugins/*/gems
           key: ${{ runner.os }}-plugin-gems-${{matrix.ruby}}-${{ hashFiles('plugins/*/plugin.rb') }}
@@ -171,7 +171,7 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
           secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
           bucket: actuated-runners
           region: local
-          use-fallback: true
+          use-fallback: false
 
           path: tmp/app-cache
           key: >-
@@ -223,7 +223,7 @@ name: ${{ matrix.target }} ${{ matrix.build_type }} # Update fetch-job-id step i
           secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
           bucket: actuated-runners
           region: local
-          use-fallback: true
+          use-fallback: false
 
           path: tmp/turbo_rspec_runtime.log
           key: rspec-runtime-${{ matrix.build_type }}-${{ matrix.target }}-${{ github.run_id }}
