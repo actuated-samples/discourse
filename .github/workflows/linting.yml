@@ -17,7 +17,7 @@ jobs:
   build:
     if: github.event_name == 'pull_request' || github.repository != 'discourse/discourse-private-mirror'
     name: run
-    runs-on: ubuntu-latest
+    runs-on: actuated-4cpu-16gb
     container: discourse/discourse_test:slim
     timeout-minutes: 30
 
@@ -35,8 +35,17 @@ jobs:
           git config --global user.name "Discourse CI"
 
       - name: Bundler cache
-        uses: actions/cache@v4
+        uses: tespkg/actions-cache@v1
         with:
+          endpoint: "192.168.128.1"
+          port: 8333
+          insecure: true
+          accessKey: ${{ secrets.ACTIONS_CACHE_ACCESS_KEY }}
+          secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
+          bucket: actuated-runners
+          region: local
+          use-fallback: false
+
           path: vendor/bundle
           key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: ${{ runner.os }}-gem-
@@ -55,9 +64,18 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Yarn cache
-        uses: actions/cache@v4
+        uses: tespkg/actions-cache@v1
         id: yarn-cache
         with:
+          endpoint: "192.168.128.1"
+          port: 8333
+          insecure: true
+          accessKey: ${{ secrets.ACTIONS_CACHE_ACCESS_KEY }}
+          secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
+          bucket: actuated-runners
+          region: local
+          use-fallback: false
+          
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-

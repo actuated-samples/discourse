@@ -373,10 +373,9 @@ jobs:
         timeout-minutes: 30
 
   core_frontend_tests:
-    # if: false
     if: github.event_name == 'pull_request' || github.repository != 'discourse/discourse-private-mirror'
     name: core frontend (${{ matrix.browser }})
-    runs-on: actuated-8cpu-32gb
+    runs-on: [ actuated-8cpu-32gb, a102]
     container:
       image: discourse/discourse_test:slim-browsers
       options: --user discourse
@@ -407,9 +406,18 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Yarn cache
-        uses: actions/cache@v4
+        uses: tespkg/actions-cache@v1
         id: yarn-cache
         with:
+          endpoint: "192.168.128.1"
+          port: 8333
+          insecure: true
+          accessKey: ${{ secrets.ACTIONS_CACHE_ACCESS_KEY }}
+          secretKey: ${{ secrets.ACTIONS_CACHE_SECRET_KEY }}
+          bucket: actuated-runners
+          region: local
+          use-fallback: false
+
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-cachev2
 
